@@ -1,0 +1,11 @@
+numpy
+osmnx
+networkx
+folium
+simpy
+faker==24.3.0
+pydantic==2.6.4
+shapely
+pandas
+geopandas
+matplotlib
