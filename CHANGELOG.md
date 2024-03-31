@@ -2,6 +2,13 @@
 
 
 
+## v0.1.2 (2024-03-31)
+
+### Fix
+
+* fix: semantic release ([`f981491`](https://github.com/Inzhenerka/scooters_data_generator/commit/f981491f670ab1a45923127ebc4a4f06bb2f57b1))
+
+
 ## v0.1.1 (2024-03-31)
 
 ### Fix

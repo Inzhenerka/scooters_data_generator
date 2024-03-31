@@ -1,6 +1,6 @@
 [project]
 name = "scooters_data_generator"
-version = "0.1.1"
+version = "0.1.2"
 description = "A data generator for scooter analytics"
 authors = [
     {name = "inzhenerka.tech", email = "info@inzhenerka.tech"}
