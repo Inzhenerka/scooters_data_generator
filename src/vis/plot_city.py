@@ -1,8 +1,10 @@
 import folium
+from networkx import MultiDiGraph
+import osmnx as ox
 from folium.plugins import MarkerCluster
-from src.transport_mos import BicycleParking, SlowZone
+from src.transport_mos import SlowZone
 from shapely.geometry import Point, Polygon
-from src.city_utils import CityZone
+from src.city_utils import CityZone, ZoneParking
 
 
 def _speed_to_color(speed: int, min_speed: int, max_speed: int):
@@ -14,10 +16,14 @@ def _speed_to_color(speed: int, min_speed: int, max_speed: int):
     return f'#{red:02x}{green:02x}{blue:02x}'
 
 
+def get_city_center(city_zone: CityZone) -> Point:
+    return city_zone.polygon.centroid
+
+
 def plot_city_zone(city_zone: CityZone, file: str = 'city_zone.html'):
     slow_zones: list[SlowZone] = city_zone.slow_zones
     zone_polygon: Polygon = city_zone.polygon
-    parking: list[BicycleParking] = city_zone.parking
+    parking: list[ZoneParking] = city_zone.parking
 
     print('Parking', len(parking))
     print('Slow zones', len(slow_zones))
@@ -40,3 +46,8 @@ def plot_city_zone(city_zone: CityZone, file: str = 'city_zone.html'):
         folium.Marker(p.coordinates, popup=p.name).add_to(parking_cluster)
 
     fm.save(file)
+
+
+def plot_city_graph(city_graph: MultiDiGraph, file: str = 'city_graph.png'):
+    fig, ax = ox.plot_graph(city_graph, show=False, close=False)
+    fig.savefig(file, dpi=300)

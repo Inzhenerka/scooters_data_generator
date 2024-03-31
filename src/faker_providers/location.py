@@ -1,7 +1,6 @@
 from faker.providers import BaseProvider
 from pydantic import BaseModel
-from shapely.geometry import Polygon, Point
-import random
+from networkx import MultiDiGraph
 
 
 class Location(BaseModel):
@@ -10,15 +9,10 @@ class Location(BaseModel):
 
 class LocationProvider(BaseProvider):
 
-    def __init__(self, generator, polygon: Polygon):
+    def __init__(self, generator, city_graph: MultiDiGraph):
         super().__init__(generator)
-        self.polygon = polygon
+        self._city_graph: MultiDiGraph = city_graph
 
-    def location(self) -> Location:
-        min_x, min_y, max_x, max_y = self.polygon.bounds
-        while True:
-            p = Point(random.uniform(min_x, max_x), random.uniform(min_y, max_y))
-            if self.polygon.contains(p):
-                return Location(
-                    coordinates=(p.x, p.y)
-                )
+    def location_node(self) -> int:
+        nodes: list[int] = list(self._city_graph.nodes)
+        return self.random_element(nodes)

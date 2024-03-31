@@ -51,10 +51,8 @@ class DatetimeProvider(BaseProvider):
         ) + datetime.timedelta(hours=hour, minutes=minute, seconds=second)
 
     def datetime_near(self, dt: datetime.datetime, std_seconds: int):
-        # Get Faker's random generator
-        random_instance = self.generator.random
         # Generate a normally distributed offset in seconds using Faker's random generator
-        offset_seconds: int = int(random_instance.gauss(mu=0, sigma=std_seconds))
+        offset_seconds: int = int(self.generator.random.gauss(mu=0, sigma=std_seconds))
         # Create a timedelta based on the offset
         offset = datetime.timedelta(seconds=offset_seconds)
         # Add the offset to the given datetime to get the random datetime

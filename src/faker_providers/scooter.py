@@ -7,7 +7,7 @@ import random
 class Scooter(BaseModel):
     id: int
     hardware_id: str
-    mileage: float
+    distance_m: float
 
 
 class ScooterProvider(BaseProvider):
@@ -25,5 +25,5 @@ class ScooterProvider(BaseProvider):
         return Scooter(
             id=scooter_id,
             hardware_id=hardware_id,
-            mileage=mileage
+            distance_m=mileage
         )

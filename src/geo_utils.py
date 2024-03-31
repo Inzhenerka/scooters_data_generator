@@ -9,7 +9,9 @@ ox.settings.log_console = True
 
 
 def get_region_graph(region: str) -> MultiDiGraph:
-    return ox.graph_from_place(region, network_type='drive')
+    g: MultiDiGraph = ox.graph_from_place(region, network_type='walk')
+    g = ox.project_graph(g)
+    return g
 
 
 def get_region_polygon(region: str) -> Polygon:

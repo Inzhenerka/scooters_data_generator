@@ -1,6 +1,6 @@
 from src.data_manager import DataManager
 from src.city_utils import CityZone
-from src.vis.plot_city_zone import plot_city_zone
+from src.vis.plot_city import plot_city_zone
 
 
 dm = DataManager()
