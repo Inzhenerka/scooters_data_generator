@@ -17,6 +17,7 @@ class RideDetails(BaseModel):
     scooter_id: int
     start_parking_id: int
     end_parking_id: int
+    desired_start_datetime: datetime.datetime
     start_datetime: datetime.datetime
     end_datetime: datetime.datetime
     distance_m: float
@@ -113,30 +114,32 @@ class RideSimulator:
         self._logger.info(
             f'[{len(self._state.ride_details)}] User {ride.person_id} is trying to start a ride {ride.id} at {ride.start_parking_id}'
         )
-        start_time: datetime.datetime = now
+        desired_start_time: datetime.datetime = now
         person: Person = self._state.persons[ride.person_id]
         start_parking: Parking = self._state.parking[ride.start_parking_id]
         start_parking_search_result: ParkingSearchResult = yield self._env.process(
             self._find_parking_with_scooter(start_parking, person)
         )
-        if start_parking_search_result.parking is None:
+        found_start_parking: Parking | None = start_parking_search_result.parking
+        if found_start_parking is None or len(found_start_parking.scooters) <= 0:
             self._state.cancelled_rides.append(CanceledRide(
                 ride_id=ride.id,
                 person_id=ride.person_id,
                 start_parking_id=ride.start_parking_id,
-                start_datetime=start_time,
+                start_datetime=desired_start_time,
                 find_available_time_s=start_parking_search_result.duration_s,
                 find_available_attempts=start_parking_search_result.attempts
             ))
             self._logger.error(f'  [X] Person {person.id} did not find scooter and cancels ride {ride.id}')
         else:
-            start_parking = start_parking_search_result.parking
-            scooter: Scooter = start_parking.scooters.pop(0)
+            self._logger.info(f'  -> Person {person.id} found a scooter at parking {found_start_parking.id}')
+            scooter: Scooter = found_start_parking.scooters.pop(0)
+            start_time: datetime.datetime = self._get_current_datetime()
             end_parking: Parking = self._state.parking[ride.end_parking_id]
             end_parking_search_result: ParkingSearchResult = self._find_parking_for_scooter(end_parking, person)
             end_parking = end_parking_search_result.parking
             distance_m: float = nx.shortest_path_length(
-                city_zone.graph, start_parking.graph_node, end_parking.graph_node, weight='length'
+                city_zone.graph, found_start_parking.graph_node, end_parking.graph_node, weight='length'
             )
             duration_s: int = int(distance_m / (person.speed_average * 1000 / 3600))
             end_time: datetime.datetime = start_time + datetime.timedelta(seconds=duration_s)
@@ -150,8 +153,9 @@ class RideSimulator:
                 id=ride_details_id,
                 person_id=ride.person_id,
                 scooter_id=scooter.id,
-                start_parking_id=ride.start_parking_id,
-                end_parking_id=ride.end_parking_id,
+                start_parking_id=found_start_parking.id,
+                end_parking_id=end_parking.id,
+                desired_start_datetime=desired_start_time,
                 start_datetime=start_time,
                 end_datetime=end_time,
                 distance_m=distance_m,
