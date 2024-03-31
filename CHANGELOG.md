@@ -2,6 +2,13 @@
 
 
 
+## v0.1.1 (2024-03-31)
+
+### Fix
+
+* fix(sim): start ride time ([`3a148ce`](https://github.com/Inzhenerka/scooters_data_generator/commit/3a148cebe1a3db42c3d13f9ca7448e0c3116566a))
+
+
 ## v0.1.0 (2024-03-31)
 
 ### Ci
