@@ -56,13 +56,6 @@ class Database:
     def create_schema(self, schema_name: str):
         self.execute_sql(f'CREATE SCHEMA IF NOT EXISTS {schema_name}')
 
-    def create_version_table(self, schema_name: str, data_version: str):
-        df = pd.DataFrame([{
-            'version': data_version,
-            'updated_at': pd.Timestamp.now(tz='UTC')
-        }])
-        self.create_table_from_df('version', schema_name, df)
-
     @staticmethod
     def parse_jdbc_url(jdbc_url: str) -> ConnectionParameters:
         parsed_url = urlparse(jdbc_url)
