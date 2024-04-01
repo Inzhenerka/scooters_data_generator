@@ -2,6 +2,17 @@
 
 
 
+## v1.0.0 (2024-04-01)
+
+### Breaking
+
+* feat!: create users table ([`2d8d495`](https://github.com/Inzhenerka/scooters_data_generator/commit/2d8d49507788742d73110a46686af2a45e40e869))
+
+### Documentation
+
+* docs: add course link ([`97b77ef`](https://github.com/Inzhenerka/scooters_data_generator/commit/97b77eff9cbe9933341798c252113bf531c2befa))
+
+
 ## v0.1.2 (2024-03-31)
 
 ### Fix
