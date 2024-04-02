@@ -27,7 +27,7 @@ class Trip(BaseModel):
     finish_lat: float
     finish_lon: float
     distance: float
-    cost: int
+    price: int
 
 
 class User(BaseModel):
@@ -76,14 +76,14 @@ class DatabaseLoader:
         trips: list[Trip] = []
         for r in state.ride_details:
             if r.promo_code:
-                cost: int = 0
+                price: int = 0
             else:
                 trip_start_hour: int = r.start_datetime.hour
                 if tariff.day_start_hour <= trip_start_hour < tariff.night_start_hour:
                     tariff_price: float = tariff.day
                 else:
                     tariff_price = tariff.night
-                cost = int(r.duration_s / 60 * tariff_price * 100)
+                price = int(r.duration_s / 60 * tariff_price * 100)
             trip = Trip(
                 id=r.id,
                 user_id=r.person_id,
@@ -95,7 +95,7 @@ class DatabaseLoader:
                 finish_lat=state.parking[r.end_parking_id].coordinates[0],
                 finish_lon=state.parking[r.end_parking_id].coordinates[1],
                 distance=r.distance_m,
-                cost=cost
+                price=price
             )
             trips.append(trip)
         return trips
