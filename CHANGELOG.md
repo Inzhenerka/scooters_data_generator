@@ -2,6 +2,13 @@
 
 
 
+## v1.0.1 (2024-04-02)
+
+### Fix
+
+* fix(trips): rename cost to price ([`7fded01`](https://github.com/Inzhenerka/scooters_data_generator/commit/7fded01bd63b1a927c77a4b025bdc34595d8b315))
+
+
 ## v1.0.0 (2024-04-01)
 
 ### Breaking
