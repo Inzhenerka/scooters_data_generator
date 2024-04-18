@@ -37,6 +37,8 @@ class Database:
         for column, dtype in df.dtypes.items():
             if hasattr(dtype, 'tz') and dtype.tz is not None:
                 wr_dtype[str(column)] = 'timestamptz'
+        with self._conn.cursor() as cursor:
+            cursor.execute(f'DROP TABLE IF EXISTS {schema_name}.{table_name} CASCADE')
         wr.postgresql.to_sql(
             df=df,
             table=table_name,

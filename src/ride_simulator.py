@@ -27,6 +27,12 @@ class RideDetails(BaseModel):
     find_available_attempts: int
 
 
+class RideRoute(BaseModel):
+    ride_id: int
+    points: list[tuple[float, float]]
+    speed_avg: float
+
+
 class CanceledRide(BaseModel):
     ride_id: int
     person_id: int

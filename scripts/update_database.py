@@ -1,13 +1,15 @@
 import os
+import logging
 from dotenv import load_dotenv
 from faker import Faker
 from src.database import Database, ConnectionParameters
 from src.database_loader import DatabaseLoader, Tariff
 
 DATA_VERSION = '1.0.0'
-SCHEMA_NAME = 'dbt_scooters'
+SCHEMA_NAME = 'scooters_raw'
 
 load_dotenv()
+logging.basicConfig(level=logging.INFO)
 fake = Faker('ru_RU')
 Faker.seed(0)
 db = Database()
@@ -21,6 +23,8 @@ db.create_schema(SCHEMA_NAME)
 dl.create_version_table(SCHEMA_NAME, DATA_VERSION)
 
 tariff = Tariff(day=10, night=5)
-dl.prepare_data('sim_state_3.pickle', tariff=tariff)
+print('Preparing data')
+dl.prepare_data('sim_state_3.pickle', routes_file='routes.pickle', tariff=tariff)
+print('Uploading data to the database')
 dl.load_data(SCHEMA_NAME)
 # dl.create_table_from_parquet('trips', SCHEMA_NAME, 'trips.parquet')
