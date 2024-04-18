@@ -2,6 +2,13 @@
 
 
 
+## v1.1.0 (2024-04-18)
+
+### Feature
+
+* feat: prepare events ([`fdebaee`](https://github.com/Inzhenerka/scooters_data_generator/commit/fdebaeef64bf0eb534555980bc082b9c0f4e6d40))
+
+
 ## v1.0.1 (2024-04-02)
 
 ### Fix
