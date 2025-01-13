@@ -11,6 +11,11 @@ class DailyWeather(BaseModel):
     condition: WeatherCondition
 
 
+class Weather(DailyWeather):
+    # For legacy purpose
+    pass
+
+
 class RidePlannerConfig(BaseModel):
     weekday_night_chance: int = 3
     weekend_night_chance: int = 7

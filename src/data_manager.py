@@ -1,4 +1,5 @@
 import os
+from typing import Any
 import pickle
 import json
 import pandas as pd
@@ -17,7 +18,7 @@ class DataManager:
     def get_file_path(self, file_name: str) -> str:
         return os.path.abspath(os.path.join(self._data_dir, file_name))
 
-    def dump_pickle(self, data: any, file_name: str) -> str:
+    def dump_pickle(self, data: Any, file_name: str) -> str:
         file_path: str = os.path.abspath(os.path.join(self._data_dir, file_name))
         if not os.path.exists(self._data_dir):
             os.makedirs(self._data_dir)
@@ -25,7 +26,7 @@ class DataManager:
             pickle.dump(data, f)
         return file_path
 
-    def load_pickle(self, file_name: str) -> any:
+    def load_pickle(self, file_name: str) -> Any:
         file_path: str = os.path.abspath(os.path.join(self._data_dir, file_name))
         with open(file_path, 'rb') as f:
             return pickle.load(f)
@@ -35,10 +36,16 @@ class DataManager:
         df: pd.DataFrame = pd.read_csv(file_path)
         return df
 
-    def dump_json(self, data: any, file_name: str) -> str:
+    def dump_json(self, data: Any, file_name: str) -> str:
         file_path: str = os.path.abspath(os.path.join(self._data_dir, file_name))
         with open(file_path, 'w') as f:
             json.dump(data, f)
+        return file_path
+
+    def dump_text(self, data: str, file_name: str) -> str:
+        file_path: str = os.path.abspath(os.path.join(self._data_dir, file_name))
+        with open(file_path, 'w') as f:
+            f.write(data)
         return file_path
 
     def dump_parquet(self, data: pd.DataFrame, file_name: str) -> str:
