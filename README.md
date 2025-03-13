@@ -23,3 +23,8 @@ pip install .
 - [users.parquet](https://inzhenerka-public.s3.eu-west-1.amazonaws.com/scooters_data_generator/users.parquet) - пользователи кикшеринга
 - [scooters_raw.sql](https://inzhenerka-public.s3.eu-west-1.amazonaws.com/scooters_data_generator/scooters_raw.sql) - SQL-дамп с данными из parquet-файлов
 - [weather.json](s3://inzhenerka-public/scooters_data_generator/weather.json) - погодные данные по дням
+
+## Автоматизированная загрузка
+
+- [dbt Data Bot](https://t.me/inzhenerka_dbt_bot) - телеграм-бот для загрузки данных в базу через интернет
+- [scooters_data_uploader](https://github.com/Inzhenerka/scooters_data_uploader) - приложение для загрузки данных в локальную базу
